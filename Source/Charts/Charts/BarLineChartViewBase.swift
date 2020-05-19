@@ -174,6 +174,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         // execute all drawing commands
         drawGridBackground(context: context)
         
+        drawRanges(context: context)
 
         if _autoScaleMinMaxEnabled
         {
@@ -498,6 +499,39 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.restoreGState()
         }
     }
+
+    internal func drawRanges(context: CGContext)
+    {
+        if drawBackgroundRanges
+        {
+            context.saveGState()
+
+            var contentRectMinX = _viewPortHandler.contentRect.minX
+            var contentRectMinY = _viewPortHandler.contentRect.minY
+            var contentRectWidth = _viewPortHandler.contentRect.width
+            var contentRectHeight = _viewPortHandler.contentRect.height
+            
+            for range in backgroundRanges {
+                
+                var lowerY = contentRectHeight * range.lowerThreshold
+                var higherY = contentRectHeight * range.higherThreshold
+                var rangeHeight = higherY - lowerY
+                var yStart = contentRectMinY + contentRectHeight - higherY
+                
+                context.setFillColor(range.color.cgColor)
+                let customRect = CGRect(
+                    x: contentRectMinX,
+                    y: yStart,
+                    width: contentRectWidth,
+                    height: rangeHeight)
+                context.fill(customRect)
+                context.addRect(customRect)
+            }
+    
+            context.restoreGState()
+        }
+    }
+
     
     // MARK: - Gestures
     

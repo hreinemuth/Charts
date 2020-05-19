@@ -114,6 +114,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// array of Highlight objects that reference the highlighted slices in the chart
     internal var _indicesToHighlight = [Highlight]()
     
+    open var _drawBackgroundRanges = true
+    
+    open var backgroundRanges = [BackgroundRange]()
+
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
     @objc open var drawMarkers = true
@@ -242,6 +246,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _data?.clearValues()
         setNeedsDisplay()
     }
+
+    @objc open func clearHighlights() {
+        _indicesToHighlight.removeAll()
+        lastHighlighted = nil
+    }
+
 
     /// - Returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
     @objc open func isEmpty() -> Bool
@@ -429,6 +439,22 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         // redraw the chart
         setNeedsDisplay()
     }
+
+    @objc open var drawBackgroundRanges: Bool
+    {
+        get { return _drawBackgroundRanges }
+       set { _drawBackgroundRanges = newValue }
+    }
+    
+    @objc open func backgroundRanges(_ ranges: [BackgroundRange]?)
+    {
+        // set the indices to highlight
+        backgroundRanges = ranges ?? [BackgroundRange]()
+        
+        // redraw the chart
+        setNeedsDisplay()
+    }
+
     
     /// Highlights any y-value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
@@ -608,6 +634,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             // draw the marker
             marker.draw(context: context, point: pos)
         }
+        clearHighlights()
     }
     
     /// - Returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
