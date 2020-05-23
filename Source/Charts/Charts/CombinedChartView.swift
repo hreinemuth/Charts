@@ -40,7 +40,6 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-         _viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(1.0), maxScaleY: CGFloat(1.0))
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
