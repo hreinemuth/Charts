@@ -248,7 +248,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
 
     @objc open func clearHighlights() {
-        _indicesToHighlight.removeAll()
+        // _indicesToHighlight.removeAll()
         lastHighlighted = nil
     }
 
