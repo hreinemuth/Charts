@@ -319,6 +319,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     open override func notifyDataSetChanged()
     {
+        clearHighlights()
+
         renderer?.initBuffers()
         
         calcMinMax()
