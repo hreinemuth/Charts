@@ -634,7 +634,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             // draw the marker
             marker.draw(context: context, point: pos)
         }
-        // clearHighlights()
+        clearHighlights()
     }
     
     /// - Returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
